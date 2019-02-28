@@ -31,8 +31,7 @@ class Interface:
         self.text_rpm=tk.StringVar(self.root)
         
 
-
-        photo_vehicle=ImageTk.PhotoImage(file="/home/ritwick/Documents/Arduino/BTP/src/car.png")
+        photo_vehicle=ImageTk.PhotoImage(file=os.path.dirname(os.path.realpath(__file__))+"/img_res/car.png")
         center_img=tk.Label(self.root,image=photo_vehicle,relief='flat',bg='white')
         picture_height=photo_vehicle.height()
         picture_width=photo_vehicle.width()             
