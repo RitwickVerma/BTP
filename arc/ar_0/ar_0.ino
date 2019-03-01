@@ -26,5 +26,7 @@ void loop() {
         else if(c=='x') digitalWrite(trigPin, LOW); 
   }
   
+  Serial.println("relay:test");
+  
   delay(100);
 }

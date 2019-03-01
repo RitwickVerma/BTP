@@ -60,14 +60,14 @@ void loop() {
   distancefl = durationfl * 0.034 / 2;
   distancefr = durationfr * 0.034 / 2;
 
-
   Serial.print("usfld:");
   Serial.print(distancefl);
-  Serial.print("|usfrd:");
-  Serial.println(distancefr);
-  //Serial.flush();
-  
-  x++;
-  y++;
-  delay(1000);
+  Serial.print("|");
+
+  Serial.print("usfrd:");
+  Serial.print(distancefr);
+  Serial.println();
+
+
+  delay(100);
 }

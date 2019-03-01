@@ -3,7 +3,6 @@ const int trigPinbl = 12;
 const int echoPinbl = 11;
 
 
-
 const int trigPinbr = 10;
 const int echoPinbr = 9;
 
@@ -63,12 +62,15 @@ void loop() {
   distancebl = durationbl * 0.034 / 2;
   distancebr = durationbr * 0.034 / 2;
 
+
   Serial.print("usbld:");
   Serial.print(distancebl);
-  Serial.print("|usbrd:");
-  Serial.println(distancebr);
-  x++;
-  y++;
+  Serial.print("|");
 
-  delay(1000);
+  Serial.print("usbrd:");
+  Serial.print(distancebr);
+  Serial.println(); 
+  
+
+  delay(100);
 }

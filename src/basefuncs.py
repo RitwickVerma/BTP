@@ -1,20 +1,26 @@
 import serial
 import os
 import time
+from src.arduino import Arduino
 
 def handshake(devlist):
+    ardlist=devlist
     devices=os.listdir("/dev")
     for dev in devices:
         if dev[0:6]=="ttyUSB" or dev[0:6]=="ttyACM":
             arduino=serial.Serial("/dev/" + str(dev),9600,timeout=10)
-            time.sleep(1)
+            time.sleep(0.1)
             arduino.flushInput()
             id=int(arduino.readline().decode().strip().strip('\x00'))
             print(id)
             devlist[id]=arduino
-            arduino.write(b'x')   
+            arduino.write(b'x')
+            ardlist[id]=Arduino(arduino)
+    return ardlist
+        
 
-def shutdown(devlist):
-    for arduino in devlist:
-        arduino.setDTR(False)
-        arduino.setDTR(True)
+
+def shutdown(ardlist):
+    for arduino in ardlist:
+        arduino.device.setDTR(False)
+        arduino.device.setDTR(True)
