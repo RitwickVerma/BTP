@@ -13,6 +13,7 @@ def main():
     root.configure(bg='white') 
     interf=Interface(root,devlist)
     interf.guiloop()
+    #root.mainloop()
     shutdown(devlist)
 
 if __name__ == "__main__":

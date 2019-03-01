@@ -1,9 +1,9 @@
-const int trigPinfl = 10;
-const int echoPinfl = 13;
+const int trigPinfl = 12;
+const int echoPinfl = 11;
 
 
-const int trigPinfr = 11;
-const int echoPinfr = 12;
+const int trigPinfr = 10;
+const int echoPinfr = 9;
 
 long durationfl;
 int distancefl;
@@ -36,10 +36,7 @@ void setup() {
 
     delay(100);  
   }
-  
 }
-
-
 void loop() {
 
   digitalWrite(LED_BUILTIN, HIGH); 
@@ -63,13 +60,14 @@ void loop() {
   distancefl = durationfl * 0.034 / 2;
   distancefr = durationfr * 0.034 / 2;
 
-  
+
   Serial.print("usfld:");
-  Serial.print(x);
+  Serial.print(distancefl);
   Serial.print("|usfrd:");
-  Serial.println(y);
+  Serial.println(distancefr);
+  //Serial.flush();
+  
   x++;
   y++;
-  
-  delay(100);
+  delay(1000);
 }

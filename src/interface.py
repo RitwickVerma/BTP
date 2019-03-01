@@ -39,33 +39,26 @@ class Interface:
        
         self.main_frame=tk.Frame(self.root,bg='')
         
-        label_usfl=tk.Label(self.main_frame,textvariable=self.text_usfl)
-        label_usfl.config(bg='white',font=("Courier", 24),fg='black')
+        label_usfl=tk.Label(self.main_frame,textvariable=self.text_usfl,bg='white',font=("Courier", 24),fg='black',anchor="center")
         label_usfl.place(x=((self.screen_width-picture_width)/2)+20,y=((self.screen_height-picture_height)/2)+250)
 
 
-        label_usfr=tk.Label(self.main_frame,textvariable=self.text_usfr)
-        label_usfr.config(bg='white',font=("Courier", 24),fg='black')
+        label_usfr=tk.Label(self.main_frame,textvariable=self.text_usfr,bg='white',font=("Courier", 24),fg='black')
         label_usfr.place(x=((self.screen_width-picture_width)/2)+490,y=((self.screen_height-picture_height)/2)+250)
 
-        label_usbl=tk.Label(self.main_frame,textvariable=self.text_usbl)
-        label_usbl.config(bg='white',font=("Courier", 24),fg='black')
+        label_usbl=tk.Label(self.main_frame,textvariable=self.text_usbl,bg='white',font=("Courier", 24),fg='black')
         label_usbl.place(x=((self.screen_width-picture_width)/2)+20,y=((self.screen_height-picture_height)/2)+750)
 
-        label_usbr=tk.Label(self.main_frame,textvariable=self.text_usbr)
-        label_usbr.config(bg='white',font=("Courier", 24),fg='black')
+        label_usbr=tk.Label(self.main_frame,textvariable=self.text_usbr,bg='white',font=("Courier", 24),fg='black')
         label_usbr.place(x=((self.screen_width-picture_width)/2)+490,y=((self.screen_height-picture_height)/2)+750)
 
-        label_rpm=tk.Label(self.main_frame,textvariable=self.text_rpm)
-        label_rpm.config(bg='white',font=("Courier", 28),fg='black')
-        label_rpm.place(x=(self.screen_width/2)-10,y=100)
+        label_rpm=tk.Label(self.main_frame,textvariable=self.text_rpm,bg='white',font=("Courier", 28),fg='black')
+        label_rpm.place(x=(self.screen_width/2)-30,y=100)
  
-        label_Time=tk.Label(self.root,textvariable=self.text_time)
-        label_Time.config(bg='white',font=("Courier", 28),fg='black')
+        label_Time=tk.Label(self.root,textvariable=self.text_time,bg='white',font=("Courier", 28),fg='black')
         label_Time.place(x=5,y=5)
                         
-        self.button_relay=tk.Button(self.root,height=2,width=10,text="Start Car",command=self.toggle_car)
-        self.button_relay.config(bg='#009688',font=("Courier", 42),activeforeground='white',fg='white',bd=0,justify='center', highlightthickness=0)
+        self.button_relay=tk.Button(self.root,height=2,width=10,text="Start Car",command=self.toggle_car,bg='#009688',font=("Courier", 42),activeforeground='white',fg='white',bd=0,justify='center', highlightthickness=0)
         self.button_relay.place(x=self.screen_width-360,y=0)
 
         self.update_time()
@@ -84,32 +77,47 @@ class Interface:
             self.button_relay.config(text="Stop Car",bg='#ff6347')
             self.car_running=True
             self.main_frame.pack(fill='both',expand=True)
-            data_thread=Thread(target=self.updateall)
-            data_thread.start()
+            self.updateall()
 
     def updateall(self):
         self.update_ar_1()
         self.update_ar_2()
         self.update_ar_3()
         if(self.car_running):
-            self.root.after(5,self.updateall)
+            self.root.after(100,self.updateall)
 
     def update_ar_1(self):
         sensdata=self.ar_1.getdata()
-        self.text_rpm.set(sensdata['psrpm'])
-        self.text_rpm.set(sensdata['psrpm'])
+        self.text_rpm.set("RPM:"+sensdata['psrpm'])
 
     def update_ar_2(self):
         sensdata=self.ar_2.getdata()
-        self.text_usfl.set(sensdata['usfld'])
-        self.text_usfr.set(sensdata['usfrd'])
+
+        if(int(sensdata['usfld'])<=100):
+            self.text_usfl.set(sensdata['usfld'])
+        else:
+            self.text_usfl.set("   ")
+
+        if(int(sensdata['usfrd'])<=100):
+            self.text_usfr.set(sensdata['usfrd'])
+        else:
+            self.text_usfr.set("   ")
+        
     
     def update_ar_3(self):
         sensdata=self.ar_3.getdata()
-        self.text_usbl.set(sensdata['usbld'])
-        self.text_usbr.set(sensdata['usbrd'])
+
+        if(int(sensdata['usbld'])<=100):
+            self.text_usbl.set(sensdata['usbld'])
+        else:
+            self.text_usbl.set("   ")
+
+        if(int(sensdata['usbrd'])<=100):
+            self.text_usbr.set(sensdata['usbrd'])
+        else:
+            self.text_usbr.set("   ")
     
     
     def update_time(self):
         self.text_time.set(time.strftime("%I:%M %p",time.localtime()))
-        self.root.after(5,self.update_time)
+        self.root.after(100,self.update_time)

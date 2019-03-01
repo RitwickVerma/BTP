@@ -1,6 +1,8 @@
+int trigPin=13;
+
 void setup() {
 
-  pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(trigPin, OUTPUT);
 
   Serial.begin(9600); // Starts the serial communication
   while(true)
@@ -20,8 +22,8 @@ void loop() {
 
   if (Serial.available() > 0) {
         char c = Serial.read();
-        if(c=='o') digitalWrite(LED_BUILTIN, HIGH); 
-        else if(c=='x') digitalWrite(LED_BUILTIN, LOW); 
+        if(c=='o') digitalWrite(trigPin, HIGH); 
+        else if(c=='x') digitalWrite(trigPin, LOW); 
   }
   
   delay(100);

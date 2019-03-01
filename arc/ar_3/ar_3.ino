@@ -1,11 +1,11 @@
 
-const int trigPinbl = 10;
-const int echoPinbl = 13;
+const int trigPinbl = 12;
+const int echoPinbl = 11;
 
 
 
-const int trigPinbr = 11;
-const int echoPinbr = 12;
+const int trigPinbr = 10;
+const int echoPinbr = 9;
 
 long durationbl;
 int distancebl;
@@ -64,11 +64,11 @@ void loop() {
   distancebr = durationbr * 0.034 / 2;
 
   Serial.print("usbld:");
-  Serial.print(x);
+  Serial.print(distancebl);
   Serial.print("|usbrd:");
-  Serial.println(y);
+  Serial.println(distancebr);
   x++;
   y++;
 
-  delay(100);
+  delay(1000);
 }
