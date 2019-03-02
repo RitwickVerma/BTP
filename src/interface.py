@@ -8,7 +8,6 @@ from src.arduino import Arduino
 
 class Interface:
     def __init__(self,root,ardlist):
-        #self.ardlist=ardlist
         self.root=root
         self.screen_width = root.winfo_screenwidth()
         self.screen_height = root.winfo_screenheight()
@@ -72,9 +71,6 @@ class Interface:
             self.main_frame.pack_forget()
 
         else:
-            """for q in self.mainbuf:
-                with q.mutex:
-                    q.queue.clear()"""
             self.ar_0.senddata('o')
             self.button_relay.config(text="Stop Car",bg='#ff6347')
             self.car_running=True
@@ -94,16 +90,28 @@ class Interface:
 
     def update_ar_2(self):
         sensdata=self.ar_2.getcurr_data()
-
-        self.text_usfl.set(sensdata['usfld'])
-        self.text_usfr.set(sensdata['usfrd'])
+        if(int(sensdata['usfld'])<300):
+            self.text_usfl.set(sensdata['usfld'])
+        else:
+            self.text_usfl.set(" "*3)
+        
+        if(int(sensdata['usfrd'])<300):
+            self.text_usfr.set(sensdata['usfrd'])
+        else:
+            self.text_usfr.set(" "*3)
         
     
     def update_ar_3(self):
         sensdata=self.ar_3.getcurr_data()
-
-        self.text_usbl.set(sensdata['usbld'])
-        self.text_usbr.set(sensdata['usbrd'])
+        if(int(sensdata['usbld'])<300):
+            self.text_usbl.set(sensdata['usbld'])
+        else:
+            self.text_usbl.set(" "*3)
+        
+        if(int(sensdata['usbrd'])<300):
+            self.text_usbr.set(sensdata['usbrd'])
+        else:
+            self.text_usbr.set(" "*3)
     
     
     def update_time(self):

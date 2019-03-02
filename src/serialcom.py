@@ -11,14 +11,12 @@ class Serialcom():
     def __init__(self,ardlist):
         self.ardlist=ardlist
         
-    
     def startreadingserial(self):
         for ard in self.ardlist:
-            #q=self.mainbuf[i]
-            t=Thread(target=self.ardserial,args=(ard,))
+            t=Thread(target=self.ardserialthread,args=(ard,))
             t.start()
 
-    def ardserial(self,ard):
+    def ardserialthread(self,ard):
         while True:
             ard.getdata()
 

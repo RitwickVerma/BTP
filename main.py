@@ -8,14 +8,10 @@ from src.serialcom import Serialcom
 
 
 def main():
-    devlist=[None,None,None,None]
-    ardlist=handshake(devlist)
+    ardlist=handshake()
 
     serialcom=Serialcom(ardlist)
     serialcom.startreadingserial()
-    #data_thread=Thread(target=serialcom.startreadingserial)
-    #data_thread.start()
-
 
     root=tk.Tk()
     root.attributes('-zoomed', True)
