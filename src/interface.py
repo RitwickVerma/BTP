@@ -3,7 +3,7 @@ import serial
 import time
 import os
 from queue import Queue
-from PIL import ImageTk
+from PIL import ImageTk,Image
 from src.arduino import Arduino
 
 class Interface:
@@ -11,6 +11,11 @@ class Interface:
         self.root=root
         self.screen_width = root.winfo_screenwidth()
         self.screen_height = root.winfo_screenheight()
+        normal_width = 1920
+        normal_height = 1080
+        self.rw = self.screen_width / normal_width
+        self.rh = self.screen_height / normal_height
+        self.sf = ((self.rw + self.rh) / 2)
         self.car_running=False
 
         self.ar_0=ardlist[0]
@@ -29,7 +34,9 @@ class Interface:
         self.text_rpm=tk.StringVar(self.root)
         
 
-        photo_vehicle=ImageTk.PhotoImage(file=os.path.dirname(os.path.realpath(__file__))+"/img_res/car.png")
+        photo_vehicle=Image.open(os.path.dirname(os.path.realpath(__file__))+"/img_res/car.png")
+        photo_vehicle=photo_vehicle.resize((int(self.screen_width*0.3),int(self.screen_height*0.9)),Image.ANTIALIAS)
+        photo_vehicle=ImageTk.PhotoImage(photo_vehicle)
         center_img=tk.Label(self.root,image=photo_vehicle,relief='flat',bg='white')
         picture_height=photo_vehicle.height()
         picture_width=photo_vehicle.width()             
@@ -37,27 +44,28 @@ class Interface:
        
         self.main_frame=tk.Frame(self.root,bg='')
         
-        label_usfl=tk.Label(self.main_frame,textvariable=self.text_usfl,bg='white',font=("Courier", 24),fg='black',anchor="center")
-        label_usfl.place(x=((self.screen_width-picture_width)/2),y=((self.screen_height-picture_height)/2)+250)
+        label_usfl=tk.Label(self.main_frame,textvariable=self.text_usfl,bg='white',font=("Courier", int(24*self.sf)),fg='black',anchor="center")
+        label_usfl.place(x=((self.screen_width-picture_width)/2),y=((self.screen_height-picture_height)/2)+250*self.rh)
 
 
-        label_usfr=tk.Label(self.main_frame,textvariable=self.text_usfr,bg='white',font=("Courier", 24),fg='black')
-        label_usfr.place(x=((self.screen_width-picture_width)/2)+490,y=((self.screen_height-picture_height)/2)+250)
+        label_usfr=tk.Label(self.main_frame,textvariable=self.text_usfr,bg='white',font=("Courier", int(24*self.sf)),fg='black')
+        label_usfr.place(x=((self.screen_width-picture_width)/2)+490*self.rw,y=((self.screen_height-picture_height)/2)+250*self.rh)
 
-        label_usbl=tk.Label(self.main_frame,textvariable=self.text_usbl,bg='white',font=("Courier", 24),fg='black')
-        label_usbl.place(x=((self.screen_width-picture_width)/2),y=((self.screen_height-picture_height)/2)+750)
+        label_usbl=tk.Label(self.main_frame,textvariable=self.text_usbl,bg='white',font=("Courier", int(24*self.sf)),fg='black')
+        label_usbl.place(x=((self.screen_width-picture_width)/2),y=((self.screen_height-picture_height)/2)+750*self.rh)
 
-        label_usbr=tk.Label(self.main_frame,textvariable=self.text_usbr,bg='white',font=("Courier", 24),fg='black')
-        label_usbr.place(x=((self.screen_width-picture_width)/2)+490,y=((self.screen_height-picture_height)/2)+750)
+        label_usbr=tk.Label(self.main_frame,textvariable=self.text_usbr,bg='white',font=("Courier", int(24*self.sf)),fg='black')
+        label_usbr.place(x=((self.screen_width-picture_width)/2)+490*self.rw,y=((self.screen_height-picture_height)/2)+750*self.rh)
 
-        label_rpm=tk.Label(self.main_frame,textvariable=self.text_rpm,bg='white',font=("Courier", 32),fg='black')
-        label_rpm.place(x=(self.screen_width/2)-150,y=100)
+        label_rpm=tk.Label(self.main_frame,textvariable=self.text_rpm,bg='white',font=("Courier", int(32*self.sf)),fg='black')
+        label_rpm.place(x=(self.screen_width/2)-150*self.rw,y=100*self.rh)
  
-        label_Time=tk.Label(self.root,textvariable=self.text_time,bg='white',font=("Courier", 28),fg='black')
-        label_Time.place(x=5,y=5)
-                        
-        self.button_relay=tk.Button(self.root,height=2,width=10,text="Start Car",command=self.toggle_car,bg='#009688',font=("Courier", 42),activeforeground='white',fg='white',bd=0,justify='center', highlightthickness=0)
-        self.button_relay.place(x=self.screen_width-360,y=0)
+        label_Time=tk.Label(self.root,textvariable=self.text_time,bg='white',font=("Courier", int(28*self.sf)),fg='black')
+        label_Time.place(x=5*self.rw,y=5*self.rh)
+
+        dummypixel = tk.PhotoImage(width=1, height=1)        
+        self.button_relay=tk.Button(self.root,image=dummypixel,height=int(100*self.rh),width=int(350*self.rw),text="Start Car",command=self.toggle_car,activebackground="black",bg='#009688',font=("Courier", int(42*self.sf)),activeforeground='white',fg='white',bd=0,justify='center', highlightthickness=0,compound='c')
+        self.button_relay.place(x=self.screen_width-360*self.rw,y=0)
 
         self.update_time()
         self.root.mainloop()
@@ -66,13 +74,13 @@ class Interface:
     def toggle_car(self):
         if self.car_running:
             self.ar_0.senddata('x')
-            self.button_relay.config(text="Start Car",bg='#009688')
+            self.button_relay.config(text="Start Car",activebackground="black",bg='#009688')
             self.car_running=False
             self.main_frame.pack_forget()
 
         else:
             self.ar_0.senddata('o')
-            self.button_relay.config(text="Stop Car",bg='#ff6347')
+            self.button_relay.config(text="Stop Car",activebackground="black",bg='#ff6347')
             self.car_running=True
             self.main_frame.pack(fill='both',expand=True)
             self.updateall()

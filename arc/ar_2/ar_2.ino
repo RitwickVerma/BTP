@@ -68,6 +68,7 @@ void loop() {
   Serial.print(distancefr);
   Serial.println();
 
+  "usfld:52|usfrd:89|asdsa:123|asdas:55"
 
   delay(100);
 }
