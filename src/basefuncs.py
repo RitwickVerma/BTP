@@ -3,6 +3,7 @@ import os
 import time
 from src.arduino import Arduino
 
+
 def handshake():
     ardlist = [None, None, None]
     devices = os.listdir("/dev")
@@ -17,6 +18,7 @@ def handshake():
             arduino.write(b'x')
             ardlist[id] = Arduino(arduino)
     return ardlist
+
 
 def shutdown(ardlist):
     for arduino in ardlist:
