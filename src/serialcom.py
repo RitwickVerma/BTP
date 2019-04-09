@@ -21,4 +21,5 @@ class Serialcom:
     def ardserialthread(self, ard):
         run = True
         while run:
-            run = ard.getdata()
+            run=ard.getdata()
+        print("hello")

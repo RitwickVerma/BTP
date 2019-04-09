@@ -12,13 +12,13 @@ class Arduino:
         self.curr_data = {}
 
     def getdata(self):
-        final_data = {}
-        try:
-            data = self.device.readline().decode().strip().strip('\x00')
-        except:
-            return False
-        print(data)
-        if (len(data) <= 1):
+        final_data={}
+        if(not self.device.is_open):
+            print("wtf")
+            return False    
+        data=self.device.readline().decode().strip().strip('\x00')
+        if(len(data)<=1):
+            print("yolo")
             return False
 
         sensdata = data.split("|")
