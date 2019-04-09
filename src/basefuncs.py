@@ -4,7 +4,7 @@ import time
 from src.arduino import Arduino
 
 def handshake():
-    ardlist=[None,None,None,None]
+    ardlist=[None,None,None]
     devices=os.listdir("/dev")
     for dev in devices:
         if dev[0:6]=="ttyUSB" or dev[0:6]=="ttyACM":

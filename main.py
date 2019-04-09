@@ -6,7 +6,6 @@ from src.interface import Interface
 from src.basefuncs import handshake,shutdown
 from src.serialcom import Serialcom
 
-
 def main():
     ardlist=handshake()
 
