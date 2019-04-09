@@ -8,8 +8,8 @@ from PIL import ImageTk, Image
 from src.arduino import Arduino
 
 class Interface:
-    def __init__(self,root,ardlist):
-        self.root=root
+    def __init__(self, root, ardlist):
+        self.root = root
         self.screen_width = root.winfo_screenwidth()
         self.screen_height = root.winfo_screenheight()
         normal_width = 1920
@@ -17,14 +17,13 @@ class Interface:
         self.rw = self.screen_width / normal_width
         self.rh = self.screen_height / normal_height
         self.sf = ((self.rw + self.rh) / 2)
-        self.car_running=False
+        self.car_running = False
 
-        self.relay_pin=LED(3)
-        self.ar_0=ardlist[0]
-        self.ar_1=ardlist[1]
-        self.ar_2=ardlist[2]
-        
-    
+        self.relay_pin = LED(3)
+        self.ar_0 = ardlist[0]
+        self.ar_1 = ardlist[1]
+        self.ar_2 = ardlist[2]
+
     def guiloop(self):
      
         self.text_usfl=tk.StringVar(self.root)
@@ -72,74 +71,71 @@ class Interface:
         self.update_time()
         self.root.mainloop()
 
-
     def toggle_car(self):
         if self.car_running:
-            #self.ar_0.senddata('x')
+            # self.ar_0.senddata('x')
             self.relay_pin.off()
-            self.button_relay.config(text="Start Car",activebackground="black",bg='#009688')
-            self.car_running=False
+            self.button_relay.config(text="Start Car", activebackground="black", bg='#009688')
+            self.car_running = False
             self.main_frame.pack_forget()
 
         else:
-            #self.ar_0.senddata('o')
+            # self.ar_0.senddata('o')
             self.relay_pin.on()
-            self.button_relay.config(text="Stop Car",activebackground="black",bg='#ff6347')
-            self.car_running=True
-            self.main_frame.pack(fill='both',expand=True)
+            self.button_relay.config(text="Stop Car", activebackground="black", bg='#ff6347')
+            self.car_running = True
+            self.main_frame.pack(fill='both', expand=True)
             self.updateall()
 
     def updateall(self):
-        #self.check_start_condition()
+        # self.check_start_condition()
         self.update_ar_0()
-        #self.update_ar_1()
+        # self.update_ar_1()
         self.update_ar_2()
-        if(self.car_running):
-            self.root.after(10,self.updateall)
+        if (self.car_running):
+            self.root.after(10, self.updateall)
 
     def check_start_condition(self):
-        sensdata=self.ar_0.get_data()
+        sensdata = self.ar_0.get_data()
 
     def update_ar_0(self):
-        sensdata=self.ar_0.getcurr_data()
-        self.text_rpm.set(sensdata['psrpm']+" rpm")
+        sensdata = self.ar_0.getcurr_data()
+        self.text_rpm.set(sensdata['psrpm'] + " rpm")
 
     def update_ar_2(self):
-        sensdata=self.ar_2.getcurr_data()
-        if(int(sensdata['usfld'])<300):
+        sensdata = self.ar_2.getcurr_data()
+        if (int(sensdata['usfld']) < 300):
             self.text_usfl.set(sensdata['usfld'])
         else:
-            self.text_usfl.set(" "*3)
-        
-        if(int(sensdata['usfrd'])<300):
+            self.text_usfl.set(" " * 3)
+
+        if (int(sensdata['usfrd']) < 300):
             self.text_usfr.set(sensdata['usfrd'])
         else:
-            self.text_usfr.set(" "*3)
+            self.text_usfr.set(" " * 3)
 
-        if(int(sensdata['usbld'])<300):
+        if (int(sensdata['usbld']) < 300):
             self.text_usbl.set(sensdata['usbld'])
         else:
-            self.text_usbl.set(" "*3)
-        
-        if(int(sensdata['usbrd'])<300):
+            self.text_usbl.set(" " * 3)
+
+        if (int(sensdata['usbrd']) < 300):
             self.text_usbr.set(sensdata['usbrd'])
         else:
-            self.text_usbr.set(" "*3)
-        
-    
+            self.text_usbr.set(" " * 3)
+
     def update_ar_3(self):
-        sensdata=self.ar_3.getcurr_data()
-        if(int(sensdata['usbld'])<300):
+        sensdata = self.ar_3.getcurr_data()
+        if (int(sensdata['usbld']) < 300):
             self.text_usbl.set(sensdata['usbld'])
         else:
-            self.text_usbl.set(" "*3)
-        
-        if(int(sensdata['usbrd'])<300):
+            self.text_usbl.set(" " * 3)
+
+        if (int(sensdata['usbrd']) < 300):
             self.text_usbr.set(sensdata['usbrd'])
         else:
-            self.text_usbr.set(" "*3)
-    
-    
+            self.text_usbr.set(" " * 3)
+
     def update_time(self):
-        self.text_time.set(time.strftime("%I:%M %p",time.localtime()))
-        self.root.after(100,self.update_time)
+        self.text_time.set(time.strftime("%I:%M %p", time.localtime()))
+        self.root.after(100, self.update_time)
