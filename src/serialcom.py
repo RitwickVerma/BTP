@@ -7,7 +7,7 @@ from PIL import ImageTk
 from src.arduino import Arduino
 from queue import Queue
 
-class Serialcom():
+class Serialcom:
     def __init__(self,ardlist):
         self.ardlist=ardlist
         
@@ -18,5 +18,6 @@ class Serialcom():
                 t.start()
 
     def ardserialthread(self,ard):
-        while True:
-            ard.getdata()
+        run=True
+        while run:
+            run=ard.getdata()

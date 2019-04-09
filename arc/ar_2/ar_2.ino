@@ -24,9 +24,9 @@ long durationbr;
 int distancebr;
 
 
-int z=-2000,w=-6000;
+int z=0,w=0;
 
-int x=-1000,y=-5000;
+int x=0,y=0;
 
 void setup() {
   pinMode(trigPinfl, OUTPUT); // Sets the trigPin as an Output
@@ -63,7 +63,7 @@ void loop() {
   digitalWrite(LED_BUILTIN, HIGH); 
 
 
-  digitalWrite(trigPinfl, LOW);
+  /*digitalWrite(trigPinfl, LOW);
   delayMicroseconds(5);
   digitalWrite(trigPinfl, HIGH);
   delayMicroseconds(10);
@@ -97,7 +97,7 @@ void loop() {
   durationbr = pulseIn(echoPinbr, HIGH);
 
   distancebl = durationbl * 0.034 / 2;
-  distancebr = durationbr * 0.034 / 2;
+  distancebr = durationbr * 0.034 / 2;*/
 
 
   Serial.print("usfld:");

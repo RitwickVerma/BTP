@@ -20,9 +20,7 @@ void setup() {
 void loop() {
   digitalWrite(LED_BUILTIN, HIGH); 
 
-  Serial.print("psrpm:");
-  Serial.println(x);
-  x++;
+  Serial.println("wtf:yo");
   
   delay(100);
 }

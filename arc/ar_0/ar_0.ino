@@ -1,5 +1,5 @@
 int trigPin=13;
-
+int x=550;
 void setup() {
 
   pinMode(trigPin, OUTPUT);
@@ -20,13 +20,17 @@ void setup() {
 }
 void loop() {
 
-  if (Serial.available() > 0) {
-        char c = Serial.read();
-        if(c=='o') digitalWrite(trigPin, HIGH); 
-        else if(c=='x') digitalWrite(trigPin, LOW); 
-  }
+  Serial.print("psseated:");
+  Serial.print("1");
+  Serial.print("|");
+
+  Serial.print("bsbelt:");
+  Serial.print("1");
+  Serial.print("|");
   
-  Serial.println("relay:test");
+  Serial.print("psrpm:");
+  Serial.println(x);
+  x++;
   
   delay(100);
 }

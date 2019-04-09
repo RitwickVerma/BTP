@@ -2,7 +2,7 @@ import tkinter as tk
 import serial
 import time
 import os
-from gpiozero import LED
+#from gpiozero import LED
 from queue import Queue
 from PIL import ImageTk, Image
 from src.arduino import Arduino
@@ -19,7 +19,7 @@ class Interface:
         self.sf = ((self.rw + self.rh) / 2)
         self.car_running=False
 
-        self.relay_pin=LED(3)
+        #self.relay_pin=LED(3)
         self.ar_0=ardlist[0]
         self.ar_1=ardlist[1]
         self.ar_2=ardlist[2]
@@ -60,7 +60,7 @@ class Interface:
         label_usbr.place(x=((self.screen_width-picture_width)/2)+440*self.rw,y=((self.screen_height-picture_height)/2)+750*self.rh)
 
         label_rpm=tk.Label(self.main_frame,textvariable=self.text_rpm,bg='white',font=("Courier", int(32*self.sf)),fg='black')
-        label_rpm.place(x=(self.screen_width/2)-100*self.rw,y=80*self.rh)
+        label_rpm.place(x=(self.screen_width/2)-80*self.rw,y=60*self.rh)
  
         label_Time=tk.Label(self.root,textvariable=self.text_time,bg='white',font=("Courier", int(28*self.sf)),fg='black')
         label_Time.place(x=5*self.rw,y=5*self.rh)
@@ -69,6 +69,7 @@ class Interface:
         self.button_relay=tk.Button(self.root,image=dummypixel,height=int(100*self.rh),width=int(350*self.rw),text="Start Car",command=self.toggle_car,activebackground="black",bg='#009688',font=("Courier", int(42*self.sf)),activeforeground='white',fg='white',bd=0,justify='center', highlightthickness=0,compound='c')
         self.button_relay.place(x=self.screen_width-360*self.rw,y=0)
 
+        self.updateall()
         self.update_time()
         self.root.mainloop()
 
@@ -76,33 +77,45 @@ class Interface:
     def toggle_car(self):
         if self.car_running:
             #self.ar_0.senddata('x')
-            self.relay_pin.off()
+            #self.relay_pin.off()
             self.button_relay.config(text="Start Car",activebackground="black",bg='#009688')
             self.car_running=False
             self.main_frame.pack_forget()
 
         else:
             #self.ar_0.senddata('o')
-            self.relay_pin.on()
+            #self.relay_pin.on()
             self.button_relay.config(text="Stop Car",activebackground="black",bg='#ff6347')
             self.car_running=True
             self.main_frame.pack(fill='both',expand=True)
-            self.updateall()
+            #self.updateall()
+
+    def car_turn_on(self):
+        self.button_relay.config(text="Stop Car",activebackground="black",bg='#ff6347')
+        self.car_running=True
+        self.main_frame.pack(fill='both',expand=True)
+    
+    def car_turn_off(self):
+        self.button_relay.config(text="Start Car",activebackground="black",bg='#009688')
+        self.car_running=False
+        self.main_frame.pack_forget()
 
     def updateall(self):
-        #self.check_start_condition()
+        self.check_start_condition()            
         self.update_ar_0()
         #self.update_ar_1()
         self.update_ar_2()
-        if(self.car_running):
-            self.root.after(10,self.updateall)
+        #if(self.car_running):
+        self.root.after(10,self.updateall)
 
     def check_start_condition(self):
-        sensdata=self.ar_0.get_data()
+        if(self.ar_0.get("psseated").strip()=="1" and self.ar_0.get("bsbelt").strip()=="1"):
+            self.car_turn_on()
+        else:
+            self.car_turn_off()
 
     def update_ar_0(self):
-        sensdata=self.ar_0.getcurr_data()
-        self.text_rpm.set(sensdata['psrpm']+" rpm")
+        self.text_rpm.set(self.ar_0.get('psrpm')+" rpm")
 
     def update_ar_2(self):
         sensdata=self.ar_2.getcurr_data()
@@ -116,19 +129,6 @@ class Interface:
         else:
             self.text_usfr.set(" "*3)
 
-        if(int(sensdata['usbld'])<300):
-            self.text_usbl.set(sensdata['usbld'])
-        else:
-            self.text_usbl.set(" "*3)
-        
-        if(int(sensdata['usbrd'])<300):
-            self.text_usbr.set(sensdata['usbrd'])
-        else:
-            self.text_usbr.set(" "*3)
-        
-    
-    def update_ar_3(self):
-        sensdata=self.ar_3.getcurr_data()
         if(int(sensdata['usbld'])<300):
             self.text_usbl.set(sensdata['usbld'])
         else:

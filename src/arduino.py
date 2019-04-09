@@ -8,12 +8,18 @@ from PIL import ImageTk
 class Arduino:
     def __init__(self,device):
         self.device=device
-        self.curr_data=[]
+        self.curr_data={}
 
     def getdata(self):
         final_data={}
-        data=self.device.readline().decode().strip().strip('\x00')
+        try:
+            data=self.device.readline().decode().strip().strip('\x00')
+        except:
+            return False
         print(data)
+        if(len(data)<=1):
+            return False
+
         sensdata=data.split("|")
         for s in sensdata:
             t=s.split(":")
@@ -22,9 +28,13 @@ class Arduino:
             
         self.curr_data=final_data
 
+        return True
 
     def getcurr_data(self):
         return self.curr_data
+
+    def get(self,key):
+        return self.curr_data.get(key,"nil")
 
     def senddata(self,data):
         self.device.write(data.encode())
