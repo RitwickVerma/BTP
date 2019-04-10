@@ -35,7 +35,7 @@ class Arduino:
         return self.curr_data
 
     def get(self, key):
-        return self.curr_data.get(key, "nil")
+        return self.curr_data.get(key, "69")
 
     def senddata(self, data):
         self.device.write(data.encode())
