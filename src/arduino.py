@@ -18,7 +18,7 @@ class Arduino:
             return False    
         data=self.device.readline().decode().strip().strip('\x00')
         if(len(data)<=1):
-            print("yolo")
+            print("blank")
             return False
 
         sensdata = data.split("|")

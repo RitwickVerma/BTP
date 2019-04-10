@@ -2,7 +2,7 @@ import tkinter as tk
 import serial
 import time
 import os
-# from gpiozero import LED
+from gpiozero import LED
 from queue import Queue
 from PIL import ImageTk, Image
 from src.arduino import Arduino
@@ -20,7 +20,7 @@ class Interface:
         self.sf = ((self.rw + self.rh) / 2)
         self.car_running = False
 
-        # self.relay_pin=LED(3)
+        self.relay_pin=LED(3)
         self.ar_0 = ardlist[0]
         self.ar_1 = ardlist[1]
         self.ar_2 = ardlist[2]
@@ -41,8 +41,6 @@ class Interface:
         center_img = tk.Label(self.root, image=photo_vehicle, relief='flat', bg='white')
         picture_height = photo_vehicle.height()
         picture_width = photo_vehicle.width()
-        center_img.place(x=(self.screen_width - picture_width) / 2, y=(self.screen_height - picture_height) / 2)
-
         center_img.place(x=(self.screen_width - picture_width) / 2, y=(self.screen_height - picture_height) / 2)
 
         self.main_frame = tk.Frame(self.root, bg='')
@@ -77,37 +75,25 @@ class Interface:
 
         dummypixel = tk.PhotoImage(width=1, height=1)
         self.button_relay = tk.Button(self.root, image=dummypixel, height=int(100 * self.rh), width=int(350 * self.rw),
-                                      text="Start Car", command=self.toggle_car, activebackground="black", bg='#009688',
+                                      text="Start Car", activebackground="black", bg='#009688',
                                       font=("Courier", int(42 * self.sf)), activeforeground='white', fg='white', bd=0,
                                       justify='center', highlightthickness=0, compound='c')
         self.button_relay.place(x=self.screen_width - 360 * self.rw, y=0)
 
         self.updateall()
         self.update_time()
+        self.main_frame.pack_forget()
         self.root.mainloop()
 
-    def toggle_car(self):
-        if self.car_running:
-            # self.ar_0.senddata('x')
-            # self.relay_pin.off()
-            self.button_relay.config(text="Start Car", activebackground="black", bg='#009688')
-            self.car_running = False
-            self.main_frame.pack_forget()
-
-        else:
-            # self.ar_0.senddata('o')
-            # self.relay_pin.on()
-            self.button_relay.config(text="Stop Car", activebackground="black", bg='#ff6347')
-            self.car_running = True
-            self.main_frame.pack(fill='both', expand=True)
-            # self.updateall()
 
     def car_turn_on(self):
+        # self.relay_pin.on()
         self.button_relay.config(text="Stop Car", activebackground="black", bg='#ff6347')
         self.car_running = True
         self.main_frame.pack(fill='both', expand=True)
 
     def car_turn_off(self):
+        # self.relay_pin.off()
         self.button_relay.config(text="Start Car", activebackground="black", bg='#009688')
         self.car_running = False
         self.main_frame.pack_forget()
@@ -115,9 +101,8 @@ class Interface:
     def updateall(self):
         self.check_start_condition()
         self.update_ar_0()
-        # self.update_ar_1()
+        #self.update_ar_1()
         self.update_ar_2()
-        # if(self.car_running):
         self.root.after(10, self.updateall)
 
     def check_start_condition(self):

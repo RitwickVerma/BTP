@@ -1,8 +1,13 @@
 int trigPin=13;
+int buttPin=12;
+int irPin=8;
+int bsbelt=0;
+int psseated=0;
 int x=550;
 void setup() {
 
-  pinMode(trigPin, OUTPUT);
+  pinMode(buttPin, INPUT);
+  pinMode(irPin, INPUT);
 
   Serial.begin(9600); // Starts the serial communication
   while(true)
@@ -19,13 +24,15 @@ void setup() {
   
 }
 void loop() {
-
+  bsbelt=digitalRead(buttPin);
+  psseated=digitalRead(irPin);
+  
   Serial.print("psseated:");
-  Serial.print("1");
+  Serial.print(psseated);
   Serial.print("|");
 
   Serial.print("bsbelt:");
-  Serial.print("1");
+  Serial.print(bsbelt);
   Serial.print("|");
   
   Serial.print("psrpm:");

@@ -1,8 +1,8 @@
 const int trigPinfl = 12;
 const int echoPinfl = 11;
 
-const int trigPinfr = 10;
-const int echoPinfr = 9;
+const int trigPinfr = 9;
+const int echoPinfr = 8;
 
 long durationfl;
 int distancefl;
@@ -11,11 +11,11 @@ long durationfr;
 int distancefr;
 
 
-const int trigPinbl = 8;
-const int echoPinbl = 7;
+const int trigPinbl = 7;
+const int echoPinbl = 6;
 
-const int trigPinbr = 6;
-const int echoPinbr = 5;
+const int trigPinbr = 4;
+const int echoPinbr = 3;
 
 long durationbl;
 int distancebl;
@@ -47,10 +47,11 @@ void setup() {
   Serial.begin(9600); // Starts the serial communication
   while(true)
   {
-    if (Serial.available() > 0) {
-        char c = Serial.read();
-        if(c=='x') break;
+  if (Serial.available() > 0) {
+       char c = Serial.read();
+       if(c=='x') break;
     }
+    
     Serial.print("2");
     Serial.println();
 
@@ -63,7 +64,7 @@ void loop() {
   digitalWrite(LED_BUILTIN, HIGH); 
 
 
-  /*digitalWrite(trigPinfl, LOW);
+  digitalWrite(trigPinfl, LOW);
   delayMicroseconds(5);
   digitalWrite(trigPinfl, HIGH);
   delayMicroseconds(10);
@@ -97,23 +98,23 @@ void loop() {
   durationbr = pulseIn(echoPinbr, HIGH);
 
   distancebl = durationbl * 0.034 / 2;
-  distancebr = durationbr * 0.034 / 2;*/
+  distancebr = durationbr * 0.034 / 2;
 
 
   Serial.print("usfld:");
-  Serial.print(x);//distancefl);
+  Serial.print(distancefl);
   Serial.print("|");
 
   Serial.print("usfrd:");
-  Serial.print(y);//distancefr);
+  Serial.print(distancefr);
   Serial.print("|");
 
   Serial.print("usbld:");
-  Serial.print(z);//distancebl);
+  Serial.print(distancebl);
   Serial.print("|");
 
   Serial.print("usbrd:");
-  Serial.print(w);//distancebr);
+  Serial.print(distancebr);
 
   Serial.println();
   
