@@ -2,6 +2,7 @@ import serial
 import os
 import time
 from src.arduino import Arduino
+from gpiozero import LED
 
 
 def handshake():
@@ -20,7 +21,8 @@ def handshake():
     return ardlist
 
 
-def shutdown(ardlist):
+def shutdown(ardlist, relay_pin):
+    relay_pin.off()
     for arduino in ardlist:
         arduino.device.close()
         arduino.device.setDTR(False)

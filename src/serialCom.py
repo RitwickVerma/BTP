@@ -2,7 +2,7 @@ import tkinter as tk
 import serial
 import time
 import os
-from threading import Thread, Event
+from threading import Thread
 from PIL import ImageTk
 from src.arduino import Arduino
 from queue import Queue

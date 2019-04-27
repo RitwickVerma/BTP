@@ -1,50 +1,30 @@
-const int trigPinfl = 12;
-const int echoPinfl = 11;
+const int trigPinleft = 12;
+const int echoPinleft = 11;
 
-const int trigPinfr = 9;
-const int echoPinfr = 8;
+const int trigPinright = 10;
+const int echoPinright = 9;
 
-long durationfl;
-int distancefl;
+long durationleft;
+int distanceleft;
 
-long durationfr;
-int distancefr;
+long durationright;
+int distanceright;
 
 
-const int trigPinbl = 7;
-const int echoPinbl = 6;
+const int trigPinback = 7;
+const int echoPinback = 6;
 
-const int trigPinbr = 4;
-const int echoPinbr = 3;
 
-long durationbl;
-int distancebl;
-
-long durationbr;
-int distancebr;
+long durationback;
+int distanceback;
 
 
 int z=0,w=0;
 
 int x=0,y=0;
 
-void setup() {
-  pinMode(trigPinfl, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPinfl, INPUT); // Sets the echoPin as an Input
-
-  pinMode(trigPinfr, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPinfr, INPUT); // Sets the echoPin as an Input*/
-
-
-  pinMode(trigPinbl, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPinbl, INPUT); // Sets the echoPin as an Input
-
-  pinMode(trigPinbr, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPinbr, INPUT); 
-
-  pinMode(LED_BUILTIN, OUTPUT);
-
-  Serial.begin(9600); // Starts the serial communication
+void handshake()
+{
   while(true)
   {
   if (Serial.available() > 0) {
@@ -59,62 +39,65 @@ void setup() {
   }
 }
 
+void setup() {
+  pinMode(trigPinleft, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPinleft, INPUT); // Sets the echoPin as an Input
+
+  pinMode(trigPinright, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPinright, INPUT); // Sets the echoPin as an Input*/
+
+
+  pinMode(trigPinback, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPinback, INPUT); // Sets the echoPin as an Input
+
+  pinMode(LED_BUILTIN, OUTPUT);
+
+  Serial.begin(9600); // Starts the serial communication
+  handshake();
+}
+
 void loop() {
 
   digitalWrite(LED_BUILTIN, HIGH); 
 
-
-  digitalWrite(trigPinfl, LOW);
+  digitalWrite(trigPinleft, LOW);
   delayMicroseconds(5);
-  digitalWrite(trigPinfl, HIGH);
+  digitalWrite(trigPinleft, HIGH);
   delayMicroseconds(10);
-  digitalWrite(trigPinfl, LOW);
-  durationfl = pulseIn(echoPinfl, HIGH);
+  digitalWrite(trigPinleft, LOW);
+  durationleft = pulseIn(echoPinleft, HIGH);
 
-  digitalWrite(trigPinfr, LOW);
+  digitalWrite(trigPinright, LOW);
   delayMicroseconds(5);
-  digitalWrite(trigPinfr, HIGH);
+  digitalWrite(trigPinright, HIGH);
   delayMicroseconds(10);
-  digitalWrite(trigPinfr, LOW);
-  durationfr = pulseIn(echoPinfr, HIGH);
+  digitalWrite(trigPinright, LOW);
+  durationright = pulseIn(echoPinright, HIGH);
 
-  distancefl = durationfl * 0.034 / 2;
-  distancefr = durationfr * 0.034 / 2;
+  distanceleft = durationleft * 0.034 / 2;
+  distanceright = durationright * 0.034 / 2;
 
 
 
-  digitalWrite(trigPinbl, LOW);
+  digitalWrite(trigPinback, LOW);
   delayMicroseconds(5);
-  digitalWrite(trigPinbl, HIGH);
+  digitalWrite(trigPinback, HIGH);
   delayMicroseconds(10);
-  digitalWrite(trigPinbl, LOW);
-  durationbl = pulseIn(echoPinbl, HIGH);
+  digitalWrite(trigPinback, LOW);
+  durationback = pulseIn(echoPinback, HIGH);
 
-  digitalWrite(trigPinbr, LOW);
-  delayMicroseconds(5);
-  digitalWrite(trigPinbr, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigPinbr, LOW);
-  durationbr = pulseIn(echoPinbr, HIGH);
+  distanceback = durationback * 0.034 / 2;
 
-  distancebl = durationbl * 0.034 / 2;
-  distancebr = durationbr * 0.034 / 2;
-
-
-  Serial.print("usfld:");
-  Serial.print(distancefl);
+  Serial.print("usld:");
+  Serial.print(distanceleft);
   Serial.print("|");
 
-  Serial.print("usfrd:");
-  Serial.print(distancefr);
+  Serial.print("usrd:");
+  Serial.print(distanceright);
   Serial.print("|");
 
-  Serial.print("usbld:");
-  Serial.print(distancebl);
-  Serial.print("|");
-
-  Serial.print("usbrd:");
-  Serial.print(distancebr);
+  Serial.print("usbd:");
+  Serial.print(distanceback);
 
   Serial.println();
   

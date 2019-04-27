@@ -12,21 +12,18 @@ class Arduino:
         self.curr_data = {}
 
     def getdata(self):
-        final_data={}
         if(not self.device.is_open):
-            print("wtf")
-            return False    
-        data=self.device.readline().decode().strip().strip('\x00')
-        if(len(data)<=1):
-            print("blank")
             return False
-
+        final_data={}
+        data=self.device.readline().decode().strip().strip('\x00')
+        # print(data)
         sensdata = data.split("|")
         for s in sensdata:
             t = s.split(":")
             t[1] = " " * (3 - len(t[1])) + t[1]
             final_data[t[0]] = t[1]
-
+        
+        time.sleep(0.05)
         self.curr_data = final_data
 
         return True
