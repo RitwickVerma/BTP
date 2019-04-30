@@ -10,14 +10,16 @@ def handshake():
     devices = os.listdir("/dev")
     for dev in devices:
         if dev[0:6] == "ttyUSB" or dev[0:6] == "ttyACM":
-            arduino = serial.Serial("/dev/" + str(dev), 9600, timeout=10)
+            arduino_com = serial.Serial("/dev/" + str(dev), 9600, timeout=10)
+            arduino = Arduino(arduino_com)
             time.sleep(0.1)
-            arduino.flushInput()
-            id = int(arduino.readline().decode().strip().strip('\x00'))
+            arduino_com.flushInput()
+            id = int(arduino.receive_data_line())
             print(id)
-            # devlist[id]=arduino
-            arduino.write(b'x')
-            ardlist[id] = Arduino(arduino)
+            arduino.start_reading()
+            ardlist[id] = arduino
+            # devlist[id]=ardino
+            arduino.send_data('x')
     return ardlist
 
 
