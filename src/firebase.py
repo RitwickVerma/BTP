@@ -7,15 +7,15 @@ import src.data_god as db
 
 class FirebaseUpload:
 
-    def __init__(self, ardlist):
+    def __init__(self):
         self.base = firebase.FirebaseApplication('https://solardatacollection.firebaseio.com/', None)
 
     def start_uploading(self):
-        t = Thread(target=self.upload_data)
+        t = Thread(target = self.upload_data)
         t.start()
 
     def upload_data(self):
-        while True:
+        while db.get_prog_running():
             time.sleep(5)
 
             loadBattery = self.base.post('/LoadBattery', {'Time': db.get('time'), 'BatteryTemperature': str(db.get("dhtt")), 'BatteryCurrent': db.get("csbat"), 'BatteryVoltage': db.get("vsbat") })

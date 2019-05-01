@@ -7,7 +7,7 @@ import src.data_god as db
 class Interface:
     def __init__(self, relay_pin):
         self.root = tk.Tk()
-        self.root.attributes('-fullscreen', True)
+        self.root.attributes('-zoomed', True)
         self.root.configure(bg='white')
         
         self.screen_width = self.root.winfo_screenwidth()
@@ -19,7 +19,7 @@ class Interface:
         self.sf = ((self.rw + self.rh) / 2)
         self.car_running = False
 
-        self.hotplug = True
+        self.hotplug = False
         self.relay_pin = relay_pin
 
     def guiloop(self):
@@ -188,9 +188,10 @@ class Interface:
         else:
             self.text_usback.set(" " * 3)
 
-        self.text_cputemp.set("CPU Temperature: " + db.get('cputemp') + "C")
+        self.text_cputemp.set("CPU Temperature: " + db.get('cputemp') + " C")
+        self.text_lat.set("Latitude: " + str(db.get('lat')))	
+        self.text_lon.set("Longitude: " + str(db.get('lon')))
 
-        
         self.root.after(10, self.update_all)
 
 
@@ -208,14 +209,14 @@ class Interface:
         self.relay_pin.on()
         self.button_relay.config(text="CAR ON", activebackground="black", bg='#ff6347')
         self.car_running = True
-        db.put('running', self.car_running)
+        db.set('carrun', self.car_running)
         self.main_frame.pack(fill='both', expand=True)
 
     def car_turn_off(self):
         self.relay_pin.off()
         self.button_relay.config(text="CAR OFF", activebackground="black", bg='#009688')
         self.car_running = False
-        db.put('running', self.car_running)
+        db.set('carrun', self.car_running)
         self.main_frame.pack_forget()
     
     def car_toggle(self):
