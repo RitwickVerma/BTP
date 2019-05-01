@@ -188,12 +188,14 @@ class Interface:
         else:
             self.text_usback.set(" " * 3)
 
+        self.text_time.set(db.get('time'))
         self.text_cputemp.set("CPU Temperature: " + db.get('cputemp') + " C")
         self.text_lat.set("Latitude: " + str(db.get('lat')))	
         self.text_lon.set("Longitude: " + str(db.get('lon')))
 
-        self.root.after(10, self.update_all)
 
+
+        self.root.after(10, self.update_all)
 
 
     def check_start_condition(self):
