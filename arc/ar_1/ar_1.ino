@@ -37,7 +37,7 @@ void setup() {
   currsenspan.calibrate();
   
   Serial.begin(9600); // Starts the serial communication
-  handshake();
+  // handshake();
   
 }
 void loop() {

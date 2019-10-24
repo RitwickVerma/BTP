@@ -9,14 +9,14 @@ const byte hsPin = 2;
 
 int bsbelt=0;
 int psseated=0;
-float hsrpm=0;
-float lastrpm=0;
-float hsspeed=0;
-float hsdist=0;
+double hsrpm=0;
+double lastrpm=0;
+double hsspeed=0;
+double hsdist=0;
 int count=0;
 
 
-float lasttime=0,deltatime=1;
+double lasttime=0,deltatime=1;
 
 dht dhttemp;
 
@@ -44,7 +44,6 @@ void handshake()
 }
 
 void setup() {
-
   pinMode(buttPin, INPUT);
   pinMode(irPin, INPUT);
 
@@ -57,20 +56,20 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(hsPin), isr, RISING);
   lasttime=millis();
   Serial.begin(9600);
-  handshake();
+  // handshake();
   
 }
 void loop() {
   bsbelt=digitalRead(buttPin);
   psseated=digitalRead(irPin);
 
-  hsrpm=60*1000/deltatime;
-  hsspeed=(hsrpm*20/100)/60;
-  hsdist=hsdist+hsspeed*deltatime/1000;
+  hsrpm=(60*1000)/deltatime;
+  hsspeed=((hsrpm*20*60)/1000);
+  hsdist=hsdist-hsspeed/36000;
   if(lastrpm==hsrpm)
   {
     count++;
-    if(count>=20)
+    if(count>=10)
     {
       hsrpm=0;
       deltatime=INFINITY;
@@ -116,6 +115,6 @@ void loop() {
 }
 
 void isr() {
-  deltatime=millis()-lasttime;
+  deltatime=lasttime-millis();
   lasttime=millis();
 }

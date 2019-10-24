@@ -18,7 +18,7 @@ class FirebaseUpload:
         while db.get_prog_running():
             time.sleep(5)
 
-            loadBattery = self.base.post('/LoadBattery', {'Time': db.get('time'), 'BatteryTemperature': str(db.get("dhtt")), 'BatteryCurrent': db.get("csbat"), 'BatteryVoltage': db.get("vsbat") })
+            loadBattery = self.base.post('/LoadBattery', {'Time': time.ctime(), 'BatteryTemperature': str(db.get("dhtt")), 'BatteryCurrent': db.get("csbat"), 'BatteryVoltage': db.get("vsbat") })
             print(loadBattery)
 
             solarPanel = self.base.post('/SolarPanel', {'Time': time.ctime(), 'SolarTemperature': db.get("tct"), 'SolarCurrent': db.get("cspan"), 'SolarVoltage': db.get("vspan") })

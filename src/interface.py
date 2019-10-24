@@ -7,7 +7,7 @@ import src.data_god as db
 class Interface:
     def __init__(self, relay_pin):
         self.root = tk.Tk()
-        self.root.attributes('-zoomed', True)
+        self.root.attributes('-fullscreen', True)
         self.root.configure(bg='white')
         
         self.screen_width = self.root.winfo_screenwidth()
@@ -73,11 +73,11 @@ class Interface:
 
         label_rpm = tk.Label(self.main_frame, textvariable=self.text_rpm, bg='white',
                              font=("Courier", int(32 * self.sf)), fg='black')
-        # label_rpm.place(x=(self.screen_width) - 400 * self.rw, y=self.screen_height / 2 - 200 * self.rh)
+        label_rpm.place(x=(self.screen_width) - 400 * self.rw, y=self.screen_height / 2 - 200 * self.rh)
 
         label_speed = tk.Label(self.main_frame, textvariable=self.text_speed, bg='white',
                              font=("Courier", int(32 * self.sf)), fg='black')
-        # label_speed.place(x=(self.screen_width) - 400 * self.rw, y=self.screen_height / 2 - 150 * self.rh)
+        label_speed.place(x=(self.screen_width) - 400 * self.rw, y=self.screen_height / 2 - 150 * self.rh)
 
         label_distance = tk.Label(self.main_frame, textvariable=self.text_distance, bg='white',
                              font=("Courier", int(32 * self.sf)), fg='black')
@@ -160,9 +160,9 @@ class Interface:
     def update_all(self):
         self.check_start_condition()
         
-        self.text_rpm.set(db.get('hsrpm') + " rpm")
-        self.text_rpm.set(db.get('hsspeed') + " m/s")
-        self.text_rpm.set(db.get('hsdist') + " m")
+        self.text_rpm.set(db.get('hsrpm') + " rpm    ")
+        self.text_speed.set(db.get('hsspeed') + " km/h    ")
+        self.text_distance.set(db.get('hsdist') + " m   ")
         self.text_battemp.set("Battery Temperature: " + db.get("dhtt") + " C")
         self.text_bathum.set("Battery Humidity: " + db.get("dhth") + " %")
         self.text_pantemp.set("Solar Panel Temperature: " + db.get("tct") + " C")
